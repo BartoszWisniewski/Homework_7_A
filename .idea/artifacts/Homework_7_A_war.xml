@@ -1,7 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="war" name="Homework_7_A:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="Homework_7_A-1.0-SNAPSHOT.war">
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Homework_7_A</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="Homework_7_A-1.0.war">
       <element id="artifact" artifact-name="Homework_7_A:war exploded" />
     </root>
   </artifact>
