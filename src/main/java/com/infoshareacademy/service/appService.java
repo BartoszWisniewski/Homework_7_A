@@ -66,7 +66,8 @@ public class appService {
         Computer newComputer = new Computer(computer.getName(),
                 computer.getOperatingSystem());
 
-        computerDao.update(newComputer);
+        LOG.info("Save computer" + newComputer);
+        computerDao.save(newComputer);
 
         String resultList = new String();
         final List<Computer> result = computerDao.findAll();
@@ -84,6 +85,20 @@ public class appService {
     public Response findComputer(){
         final List<Computer> result = computerDao.findAll();
         return Response.ok(result).build();
+    }
+
+    @DELETE
+    @Path("computers/{id}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response deleteComputer(@PathParam("id") Long id){
+
+        if(computerDao.findById(id)==null){
+            LOG.warn("Error to removing computer whit id: {}", id);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        computerDao.delete(id);
+        LOG.info("Removing computer with id {}", id);
+        return Response.status(Response.Status.ACCEPTED).build();
     }
 
 }
