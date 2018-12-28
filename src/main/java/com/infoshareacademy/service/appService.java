@@ -1,5 +1,6 @@
 package com.infoshareacademy.service;
 
+import com.infoshareacademy.dao.ComputerDao;
 import com.infoshareacademy.dao.StudentDao;
 import com.infoshareacademy.model.Computer;
 import com.infoshareacademy.model.Student;
@@ -21,6 +22,9 @@ public class appService {
 
     @Inject
     private StudentDao studentDao;
+
+    @Inject
+    private ComputerDao computerDao;
 
 
     @GET
@@ -59,10 +63,27 @@ public class appService {
     @Produces(MediaType.TEXT_PLAIN)
     public Response addComputer(Computer computer){
 
-        
-        return Response.ok("aaa").build();
+        Computer newComputer = new Computer(computer.getName(),
+                computer.getOperatingSystem());
+
+        computerDao.update(newComputer);
+
+        String resultList = new String();
+        final List<Computer> result = computerDao.findAll();
+
+        LOG.info("Found {} objects", result.size());
+        for (Computer c : result) {
+            resultList += (c.toString() + "\n");
+        }
+        return Response.ok(resultList).build();
     }
 
-
+    @GET
+    @Path("computers")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findComputer(){
+        final List<Computer> result = computerDao.findAll();
+        return Response.ok(result).build();
+    }
 
 }
